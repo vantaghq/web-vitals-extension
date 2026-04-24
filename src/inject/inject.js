@@ -11,7 +11,7 @@
  limitations under the License.
 */
 
-chrome.extension.sendMessage({}, (response) => {
+chrome.runtime.sendMessage({}, (_response) => {
   const readyStateCheckInterval = setInterval(() => {
     if (document.readyState === 'complete') {
       clearInterval(readyStateCheckInterval);

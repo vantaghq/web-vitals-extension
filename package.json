@@ -1,6 +1,6 @@
 {
   "name": "web-vitals-extension",
-  "version": "1.8.0",
+  "version": "2.5.0",
   "description": "Instant Web Vitals metrics + Server Information",
   "main": "src/browser_action/vitals.js",
   "repository": "https://github.com/VANTAGhq/web-vitals-extension",

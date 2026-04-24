@@ -209,8 +209,10 @@ function extractTechData() {
     // Vue
     if (
         window.Vue ||
+        window.__VUE__ ||
         document.querySelector('[vue-id]') ||
-        Array.from(document.querySelectorAll('*')).some(e => e.__vue__)
+        document.querySelector('[data-v-app]') ||
+        document.querySelector('[data-v-]')
     ) {
         add('frameworks', 'Vue.js');
     }

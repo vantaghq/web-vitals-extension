@@ -13,6 +13,10 @@
 
 import {INPThresholds} from './web-vitals.js';
 
+function getName(el) {
+  return el.nodeName.toLowerCase();
+}
+
 /**
  * @param {Function} callback
  */

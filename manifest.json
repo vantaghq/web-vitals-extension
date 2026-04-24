@@ -1,6 +1,6 @@
 {
   "name": "Web Vitals",
-  "version": "2.0.0",
+  "version": "2.5.0",
   "manifest_version": 3,
   "description": "Measure metrics for a healthy site, Server Info, Web info, SEO Analysis & Accessibility checks.",
   "homepage_url": "https://vantag.es/",
@@ -14,9 +14,12 @@
     "default_title": "Web Vitals",
     "default_popup": "src/browser_action/popup.html"
   },
+  "side_panel": {
+    "default_path": "src/browser_action/popup.html"
+  },
   "options_page": "src/options/options.html",
   "host_permissions": ["*://*/*"],
-  "permissions": ["tabs", "storage", "activeTab", "scripting", "webRequest"],
+  "permissions": ["tabs", "storage", "activeTab", "scripting", "webRequest", "sidePanel"],
   "web_accessible_resources": [
     {
       "resources": [
@@ -39,6 +42,6 @@
     "type": "module"
   },
   "content_security_policy": {
-    "extension_pages": "default-src 'self'; connect-src https://chromeuxreport.googleapis.com https://ipwhois.app https://dns.google https://http-observatory.security.mozilla.org https://securityheaders.com;"
+    "extension_pages": "default-src 'self'; img-src 'self' https://static.vantag.es data:; connect-src https://chromeuxreport.googleapis.com https://ipwhois.app https://dns.google https://http-observatory.security.mozilla.org https://securityheaders.com https://rdap.org https://crt.sh;"
   }
 }

@@ -68,19 +68,17 @@ export class ServerInfo {
       return {
         ip: data.ip || 'N/A',
         hostname: this.hostname,
-        city: data.city || 'N/A',
         region: data.region || 'N/A',
         country: data.country || 'N/A',
         countryCode: data.country_code || 'N/A',
-        postal: 'N/A',
-        location: data.city && data.country 
-          ? `${data.city}, ${data.country}` 
+        location: data.region && data.country
+          ? `${data.region}, ${data.country}`
           : 'N/A',
         timezone: data.timezone || 'N/A',
         latitude: data.latitude || 'N/A',
         longitude: data.longitude || 'N/A',
-        coordinates: data.latitude && data.longitude 
-          ? `${data.latitude}, ${data.longitude}` 
+        coordinates: data.latitude && data.longitude
+          ? `${data.latitude}, ${data.longitude}`
           : 'N/A',
         isp: data.isp || 'N/A',
         org: data.org || 'N/A',

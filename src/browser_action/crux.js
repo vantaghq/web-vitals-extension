@@ -10,7 +10,7 @@ export class CrUX {
     const url = urlHelper.href;
     const origin = urlHelper.origin;
 
-    return CrUX.query({url, formFactor}).catch(e =>{
+    return CrUX.query({url, formFactor}).catch(_e =>{
       // If URL data is unavailable, fall back to the origin.
       return CrUX.query({origin, formFactor});
     });

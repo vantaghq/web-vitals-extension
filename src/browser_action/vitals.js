@@ -17,8 +17,8 @@
   const { onEachInteraction } = await import(chrome.runtime.getURL('src/browser_action/on-each-interaction.js'));
   let overlayClosedForSession = false;
   let latestCLS = {};
-  let enableLogging = localStorage.getItem('web-vitals-extension-debug')=='TRUE';
-  let enableUserTiming = localStorage.getItem('web-vitals-extension-user-timing')=='TRUE';
+  let enableLogging = localStorage.getItem('web-vitals-extension-debug')==='TRUE';
+  let enableUserTiming = localStorage.getItem('web-vitals-extension-user-timing')==='TRUE';
   let tabLoadedInBackground;
 
   const COLOR_GOOD = '#0CCE6A';
@@ -77,7 +77,7 @@
     if (metricsState) {
       metricsState = JSON.parse(metricsState);
 
-      if (metricsState.navigationStart == performance.timing.navigationStart) {
+      if (metricsState.navigationStart === performance.timeOrigin) {
         return metricsState;
       }
     }
@@ -107,7 +107,7 @@
       },
       // This is used to distinguish between navigations.
       // TODO: Is there a cleaner way?
-      navigationStart: performance.timing.navigationStart
+      navigationStart: performance.timeOrigin
     };
 
   }
@@ -152,7 +152,7 @@
     }, ({
       enableOverlay, debug, userTiming
     }) => {
-      if (enableOverlay === true && overlayClosedForSession == false) {
+      if (enableOverlay === true && overlayClosedForSession === false) {
         let overlayElement = document.getElementById('web-vitals-extension-overlay');
         if (overlayElement === null) {
           // Overlay
@@ -162,7 +162,7 @@
           document.body.appendChild(overlayElement);
 
           // Overlay close button
-          overlayClose = document.createElement('button');
+          const overlayClose = document.createElement('button');
           overlayClose.innerText = 'Close';
           overlayClose.id = 'web-vitals-close';
           overlayClose.className = 'lh-overlay-close';
@@ -273,7 +273,7 @@
       `color: ${RATING_COLORS[metric.rating] || 'inherit'}`
     );
 
-    if (metric.name == 'LCP' &&
+    if (metric.name === 'LCP' &&
         metric.attribution &&
         metric.attribution.lcpEntry &&
         metric.attribution.navigationEntry) {
@@ -296,7 +296,7 @@
       }]);
     }
 
-    else if (metric.name == 'FCP' &&
+    else if (metric.name === 'FCP' &&
         metric.attribution &&
         metric.attribution.fcpEntry &&
         metric.attribution.navigationEntry) {
@@ -313,22 +313,22 @@
       }]);
     }
 
-    else if (metric.name == 'CLS' && metric.entries.length) {
+    else if (metric.name === 'CLS' && metric.entries.length) {
       for (const entry of metric.entries) {
         console.log('Layout shift - score: ', Math.round(entry.value * 10000) / 10000);
         for (const source of entry.sources) {
           console.log(source.node);
         }
-      };
+      }
     }
 
-    else if ((metric.name == 'INP'|| metric.name == 'Interaction') && metric.attribution) {
+    else if ((metric.name === 'INP'|| metric.name === 'Interaction') && metric.attribution) {
       const eventTarget = metric.attribution.interactionTargetElement;
       console.log('Interaction target:', eventTarget || metric.attribution.interactionTarget);
       console.log(`Interaction event type: %c${metric.attribution.interactionType}`, 'font-family: monospace');
 
       // Sub parts are only available for INP events and not Interactions
-      if (metric.name == 'INP') {
+      if (metric.name === 'INP') {
         console.table([{
           'Interaction sub-part': 'Input delay',
           'Time (ms)': Math.round(metric.attribution.inputDelay, 0),
@@ -352,7 +352,7 @@
           const sortedScripts = allScripts.sort((a,b) => b.duration - a.duration);
 
           // Pull out the pieces of interest for console table
-          scriptData = sortedScripts.map((a) => (
+          const scriptData = sortedScripts.map((a) => (
                 {
                   'Duration': Math.round(a.duration, 0),
                   'Type': a.invokerType || null,
@@ -384,7 +384,7 @@
       }
     }
 
-    else if (metric.name == 'TTFB' &&
+    else if (metric.name === 'TTFB' &&
         metric.attribution &&
         metric.attribution.navigationEntry) {
       console.log('TTFB navigation type:', metric.navigationType);
@@ -412,7 +412,7 @@
 
   function addUserTimings(metric) {
     switch (metric.name) {
-      case "LCP":
+      case "LCP": {
         if (!(metric.attribution && metric.attribution.lcpEntry && metric.attribution.navigationEntry)) {
           break;
         }
@@ -441,8 +441,9 @@
           end: metric.value
         });
         break;
+      }
 
-      case "INP":
+      case "INP": {
         if (!(metric.attribution)) {
           break;
         }
@@ -466,6 +467,7 @@
           end: interactionTime + inputDelay + processingDuration + presentationDelay,
         });
         break;
+      }
     }
   }
 
